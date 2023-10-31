@@ -1,6 +1,7 @@
 package CentralAPIAudit.CentralAPIAudit.config;
 
 import CentralAPIAudit.CentralAPIAudit.intercepter.Intercepter;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -15,6 +16,7 @@ public class StarConfig  implements WebMvcConfigurer {
     public Intercepter intercepter(){
         return new Intercepter();
     }
+
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {

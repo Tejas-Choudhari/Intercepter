@@ -13,6 +13,12 @@ public class StarController {
 
     @PostMapping("/display")
     public String display(){
-        return "hello Star Health";
+        Double.parseDouble("cwjhd");
+        return "hi hi hi ";
+    }
+
+    @PostMapping("/msg")
+    public String msg(){
+        return "hi hi hi ";
     }
 }

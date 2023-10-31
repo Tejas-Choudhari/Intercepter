@@ -25,6 +25,8 @@ public class StarEntity {
     private String contentType;
     private String requestID;
     private String hostName;
+    private String response;
+    private String errorTrace;
 
 
     @Override
@@ -41,6 +43,8 @@ public class StarEntity {
                 ", contentType='" + contentType + '\'' +
                 ", requestID='" + requestID + '\'' +
                 ", hostName='" + hostName + '\'' +
+                ", response='" + response + '\'' +
+                ", errorTrace='" + errorTrace + '\'' +
                 '}';
     }
 }
