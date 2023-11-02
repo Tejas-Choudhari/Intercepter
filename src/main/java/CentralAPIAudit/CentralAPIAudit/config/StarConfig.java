@@ -9,11 +9,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 //class to configuration of the intercepter that what controller should inplement the intercepter
 @Configuration
-public class StarConfig  implements WebMvcConfigurer {
+public class StarConfig implements WebMvcConfigurer {
 
 
     @Bean
-    public Intercepter intercepter(){
+    public Intercepter intercepter() {
         return new Intercepter();
     }
 

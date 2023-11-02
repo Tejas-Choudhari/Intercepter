@@ -4,15 +4,14 @@ import CentralAPIAudit.CentralAPIAudit.model.StarEntity;
 import CentralAPIAudit.CentralAPIAudit.service.StarService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.ContentCachingResponseWrapper;
-
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -22,6 +21,7 @@ import java.util.Enumeration;
 
 
 @Component
+@Slf4j
 public class Intercepter implements HandlerInterceptor {
     private long startTime;
 
@@ -37,7 +37,7 @@ public class Intercepter implements HandlerInterceptor {
         startTime = System.currentTimeMillis();
         Date requestTime = new Date(); // Capture the current date and time
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        System.out.println("Request Time: " + dateFormat.format(requestTime));
+        log.info("Request Time: " + dateFormat.format(requestTime));
         request.setAttribute("startTime", startTime);
         return true;
 
@@ -47,8 +47,6 @@ public class Intercepter implements HandlerInterceptor {
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
                            @Nullable ModelAndView modelAndView) throws Exception {
     }
-
-
 
 
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler,
@@ -67,22 +65,10 @@ public class Intercepter implements HandlerInterceptor {
             StringWriter sw = new StringWriter();
             ex.printStackTrace(new PrintWriter(sw));
             errorStackTrace = sw.toString();
-            System.out.println(" error trace : " + errorStackTrace);
-//            starEntity.setErrorTrace(errorStackTrace);
-
+            log.info(" error trace : " + errorStackTrace);
         }
 
-        System.out.println("Response Time: " + dateFormat.format(responseTime));
-        System.out.println("Status Code :" + response.getStatus());
-        System.out.println("Time Taken : " + timeTaken + " ms");
-        System.out.println("Context path : " + request.getRequestURI());
-        System.out.println("Method Used : " + request.getMethod());
-        System.out.println("Header Name : " + request.getHeaderNames().toString());
-        System.out.println("Content Type : " + request.getContentType());
-        System.out.println("Request ID : " + request.getRequestId());
-        System.out.println("Host Name : " + request.getServerName());
-
-
+        //for response
         ContentCachingResponseWrapper wrapper;
         if (response instanceof ContentCachingResponseWrapper) {
             wrapper = (ContentCachingResponseWrapper) response;
@@ -90,9 +76,19 @@ public class Intercepter implements HandlerInterceptor {
             wrapper = new ContentCachingResponseWrapper(response);
         }
         getResponse(wrapper);
+        String responseContent = getResponse(wrapper);
 
-
-        //for error trace
+        log.info("Response Time: " + dateFormat.format(responseTime));
+        log.info("Response Time: " + dateFormat.format(responseTime));
+        log.info("Status Code :" + response.getStatus());
+        log.info("Time Taken : " + timeTaken + " ms");
+        log.info("Context path : " + request.getRequestURI());
+        log.info("Method Used : " + request.getMethod());
+        log.info("Header Name : " + request.getHeaderNames().toString());
+        log.info("Content Type : " + request.getContentType());
+        log.info("Request ID : " + request.getRequestId());
+        log.info("Host Name : " + request.getServerName());
+        log.info("Response Content: " + responseContent);
 
 
         //for storing into database
@@ -106,7 +102,10 @@ public class Intercepter implements HandlerInterceptor {
         starEntity.setContentType(request.getContentType());
         starEntity.setRequestID(request.getRequestId()); // Replace with the actual request ID
         starEntity.setHostName(request.getServerName());
-        starEntity.setResponse(getResponse(new ContentCachingResponseWrapper(response)));
+//        starEntity.setResponse(getResponse(new ContentCachingResponseWrapper(response)));
+        starEntity.setResponse(responseContent);
+
+
         starEntity.setErrorTrace(errorStackTrace);
 
 
@@ -115,15 +114,6 @@ public class Intercepter implements HandlerInterceptor {
 
     }
 
-
-
-
-
-//    Response
-//    Status
-//    Request body
-//    Error message (Stack trace)
-//    Header String
 
     private String getRequestHeaderNames(HttpServletRequest request) {
         Enumeration<String> headerNames = request.getHeaderNames();
