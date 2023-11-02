@@ -37,7 +37,7 @@ public class Intercepter implements HandlerInterceptor {
         startTime = System.currentTimeMillis();
         Date requestTime = new Date(); // Capture the current date and time
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        log.info("Request Time: " + dateFormat.format(requestTime));
+        System.out.println("Request Time: " + dateFormat.format(requestTime));
         request.setAttribute("startTime", startTime);
         return true;
 
@@ -65,7 +65,7 @@ public class Intercepter implements HandlerInterceptor {
             StringWriter sw = new StringWriter();
             ex.printStackTrace(new PrintWriter(sw));
             errorStackTrace = sw.toString();
-            log.info(" error trace : " + errorStackTrace);
+            System.out.println(" error trace : " + errorStackTrace);
         }
 
         //for response
@@ -75,20 +75,25 @@ public class Intercepter implements HandlerInterceptor {
         } else {
             wrapper = new ContentCachingResponseWrapper(response);
         }
-        getResponse(wrapper);
         String responseContent = getResponse(wrapper);
 
-        log.info("Response Time: " + dateFormat.format(responseTime));
-        log.info("Response Time: " + dateFormat.format(responseTime));
-        log.info("Status Code :" + response.getStatus());
-        log.info("Time Taken : " + timeTaken + " ms");
-        log.info("Context path : " + request.getRequestURI());
-        log.info("Method Used : " + request.getMethod());
-        log.info("Header Name : " + request.getHeaderNames().toString());
-        log.info("Content Type : " + request.getContentType());
-        log.info("Request ID : " + request.getRequestId());
-        log.info("Host Name : " + request.getServerName());
-        log.info("Response Content: " + responseContent);
+
+//        ContentCachingResponseWrapper wrapper = (ContentCachingResponseWrapper) response;
+//        String responseContent = getResponse(wrapper);
+
+
+
+        System.out.println("Response Time: " + dateFormat.format(responseTime));
+        System.out.println("Response Time: " + dateFormat.format(responseTime));
+        System.out.println("Status Code :" + response.getStatus());
+        System.out.println("Time Taken : " + timeTaken + " ms");
+        System.out.println("Context path : " + request.getRequestURI());
+        System.out.println("Method Used : " + request.getMethod());
+//        System.out.println("Header Name : " + request.);
+        System.out.println("Content Type : " + request.getContentType());
+        System.out.println("Request ID : " + request.getRequestId());
+        System.out.println("Host Name : " + request.getServerName());
+        System.out.println("Response Content: " + responseContent);
 
 
         //for storing into database
