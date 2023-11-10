@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-//class to configuration of the intercepter that what controller should inplement the intercepter
+//class to configuration of the intercepter that what controller should implement the intercepter
 @Configuration
 public class StarConfig implements WebMvcConfigurer {
 

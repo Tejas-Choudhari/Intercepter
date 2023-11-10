@@ -25,7 +25,6 @@ import java.util.Enumeration;
 public class Intercepter implements HandlerInterceptor {
     private long startTime;
 
-
     @Autowired
     private StarService starService;
 
@@ -105,12 +104,9 @@ public class Intercepter implements HandlerInterceptor {
         starEntity.setRequestMethod(request.getMethod());
         starEntity.setRequestHeaderName(getRequestHeaderNames(request));
         starEntity.setContentType(request.getContentType());
-        starEntity.setRequestID(request.getRequestId()); // Replace with the actual request ID
+        starEntity.setRequestID(request.getRequestId()); //
         starEntity.setHostName(request.getServerName());
-//        starEntity.setResponse(getResponse(new ContentCachingResponseWrapper(response)));
         starEntity.setResponse(responseContent);
-
-
         starEntity.setErrorTrace(errorStackTrace);
 
 
